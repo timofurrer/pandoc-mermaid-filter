@@ -39,6 +39,9 @@ pandoc tests/sample.md -o sample.pdf --filter pandoc-mermaid
 The mermaid binary must be in your `$PATH` or can be set with the
 `MERMAID_BIN` environment variable.
 
+By setting the environment variable `PUPPETEER_CFG`, you can pass a custom
+configuration file to `mermaid` (`-p` option).
+
 ## But there is ...
 
 There are a few other filters trying to convert mermaid code blocks however

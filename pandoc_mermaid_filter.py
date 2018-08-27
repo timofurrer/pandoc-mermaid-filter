@@ -7,8 +7,9 @@ import subprocess
 from pandocfilters import toJSONFilter, Para, Image
 from pandocfilters import get_filename4code, get_caption, get_extension
 
+# Environment variables with fallback values
 MERMAID_BIN = os.environ.get('MERMAID_BIN', 'mermaid')
-
+PUPPETEER_CFG = os.environ.get('PUPPETEER_CFG', None)
 
 def mermaid(key, value, format_, _):
     if key == 'CodeBlock':
@@ -28,7 +29,13 @@ def mermaid(key, value, format_, _):
                 with open(src, "wb") as f:
                     f.write(txt)
 
-                subprocess.check_call([MERMAID_BIN, "-i", src, "-o", dest])
+                # Default command to execute
+                cmd = [MERMAID_BIN, "-i", src, "-o", dest]
+
+                if PUPPETEER_CFG is not None:
+                    cmd.extend(["-p", PUPPETEER_CFG])
+
+                subprocess.check_call(cmd)
                 sys.stderr.write('Created image ' + dest + '\n')
 
             return Para([Image([ident, [], keyvals], caption, [dest, typef])])
