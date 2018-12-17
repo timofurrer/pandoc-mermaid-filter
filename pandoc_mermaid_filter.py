@@ -35,6 +35,9 @@ def mermaid(key, value, format_, _):
                 if PUPPETEER_CFG is not None:
                     cmd.extend(["-p", PUPPETEER_CFG])
 
+                if os.path.isfile('.puppeteer.json'):
+                    cmd.extend(["-p", ".puppeteer.json"])
+
                 subprocess.check_call(cmd)
                 sys.stderr.write('Created image ' + dest + '\n')
 
