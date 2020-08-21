@@ -39,7 +39,7 @@ def mermaid(key, value, format_, _):
                 if os.path.isfile('.puppeteer.json'):
                     cmd.extend(["-p", ".puppeteer.json"])
 
-                subprocess.check_call(cmd)
+                subprocess.check_call(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 sys.stderr.write('Created image ' + dest + '\n')
 
             return Para([Image([ident, [], keyvals], caption, [dest, typef])])
