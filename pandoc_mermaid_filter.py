@@ -17,7 +17,7 @@ def mermaid(key, value, format_, _):
         [[ident, classes, keyvals], code] = value
 
         if "mermaid" in classes:
-            caption, typef, keyvals = get_caption(keyvals)
+            caption, typef, keyvals = _get_caption(keyvals,format_)
 
             # Use arguments in filename encoding to re-render when flags change
             filename = get_filename4code("mermaid", code+str(keyvals))
@@ -55,6 +55,23 @@ def mermaid(key, value, format_, _):
 
             return Para([Image([ident, [], keyvals], caption, [dest, typef])])
 
+def _get_caption(item, fmt : str):
+    captions, typef, keyvals = get_caption(item)
+    # print('Originals: ',captions,typef,keyvals, file=sys.stderr)
+    for caption in captions:
+        if caption['c'] is None and caption['c']:
+            continue
+        caption['t'] = 'RawInline'
+        caption['c'] = [fmt, to_format(caption['c'], fmt)]
+    # print('Captions: ', captions, 'typef: ', typef, 'keyvals: ', keyvals, file=sys.stderr)
+    return captions, typef, keyvals
+
+def to_format(txt : str, fmt : str) -> str:
+    command = ['pandoc', '-f', 'markdown', '-t', fmt]
+    p = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    output = p.communicate(input=txt.encode())[0].decode()
+    # print("Converted to:", output, file=sys.stderr)
+    return output
 
 def main():
     toJSONFilter(mermaid)
