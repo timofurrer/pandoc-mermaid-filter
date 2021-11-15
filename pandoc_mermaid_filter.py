@@ -50,7 +50,7 @@ def mermaid(key, value, format_, _):
                     if it[0]=='scale':
                         cmd.extend(["-s", it[1]])
 
-                subprocess.check_call(cmd)
+                subprocess.check_call(cmd,stdout=sys.stderr)
                 sys.stderr.write('Created image ' + dest + '\n')
 
             return Para([Image([ident, [], keyvals], caption, [dest, typef])])
