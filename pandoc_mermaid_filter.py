@@ -8,7 +8,7 @@ from pandocfilters import toJSONFilter, Para, Image
 from pandocfilters import get_filename4code, get_caption, get_extension
 
 # Environment variables with fallback values
-MERMAID_BIN = os.path.expanduser(os.environ.get('MERMAID_BIN', 'mermaid'))
+MERMAID_BIN = os.path.expanduser(os.environ.get('MERMAID_BIN', 'mmdc'))
 PUPPETEER_CFG = os.environ.get('PUPPETEER_CFG', None)
 
 
